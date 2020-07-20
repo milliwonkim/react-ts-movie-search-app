@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from 'axios';
+
 import Header from './components/Header';
 import Movie from './components/Movie';
 import Search from './components/Search';
 import './App.css';
 
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import axios from 'axios';
-
-import { MovieContext } from './store/MovieContext';
+const MOVIE_API_URL = 'https://www.omdbapi.com/?s=man&apikey=de08387b';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-const MOVIE_API_URL = 'https://www.omdbapi.com/?s=man&apikey=de08387b';
 
 export default function App(): JSX.Element {
     const classes = useStyles();
@@ -38,6 +36,7 @@ export default function App(): JSX.Element {
                 movies: res.data.Search,
             });
         });
+        // eslint-disable-next-line
     }, []);
 
     const search = (searchValue) => {
@@ -79,17 +78,15 @@ export default function App(): JSX.Element {
         );
 
     return (
-        <MovieContext.Provider value={state}>
-            <div className='App'>
-                <div className='m-container'>
-                    <Header text='HOOKED' />
-                    <Search search={search} />
-                    <p className='App-intro'>
-                        Sharing a few of our favourite movies
-                    </p>
-                    <div className='movies'>{retrievedMovies}</div>
-                </div>
+        <div className='App'>
+            <div className='m-container'>
+                <Header text='HOOKED' />
+                <Search search={search} />
+                <p className='App-intro'>
+                    Sharing a few of our favourite movies
+                </p>
+                <div className='movies'>{retrievedMovies}</div>
             </div>
-        </MovieContext.Provider>
+        </div>
     );
 }

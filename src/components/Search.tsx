@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
-const Search = (props) => {
+type SearchProps = {
+    search: (text: string) => void;
+};
+
+const Search = ({ search }: SearchProps) => {
     const [searchValue, setSearchValue] = useState<String>('');
 
-    const handleSearchInputChanges = (
-        e: React.FormEvent<HTMLInputElement>
-    ): void => {
+    const handleSearchInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
     };
 
@@ -15,7 +17,7 @@ const Search = (props) => {
 
     const callSearchFunction = (e: React.FormEvent<HTMLInputElement>): void => {
         e.preventDefault();
-        props.search(searchValue);
+        search(searchValue);
         resetInputField();
     };
 

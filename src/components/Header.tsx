@@ -1,17 +1,17 @@
-import React, { StatelessComponent } from 'react';
+import React from 'react';
 
-interface HeaderProps {
-    props: object;
-}
+type HeaderProps = {
+    text: string;
+};
 
-const Header: StatelessComponent<HeaderProps> = (props) => {
+const Header = ({ text }: HeaderProps) => {
     const a = () => {
-        console.log(typeof props);
+        console.log(typeof text);
     };
 
     return (
         <header className='App-header'>
-            <h2 onClick={a}>{props.text}</h2>
+            <h2 onClick={a}>{text}</h2>
         </header>
     );
 };
