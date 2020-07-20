@@ -1,9 +1,8 @@
-import React, { useState, useReducer, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from './components/Header';
 import Movie from './components/Movie';
 import Search from './components/Search';
-// import { initialState, reducer } from './store/reducer';
 import './App.css';
 
 import { makeStyles } from '@material-ui/core/styles';
