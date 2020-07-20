@@ -1,15 +1,20 @@
-import React, { StatelessComponent } from 'react';
+import React from 'react';
 
 const DEFAULT_PLACEHOLDER_IMAGE =
     'https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg';
 
-interface MovieProps {
-    movie: object;
-}
+type MovieProps = {
+    movie: {
+        Poster: string;
+        Title: string;
+        Year: number;
+    };
+};
 
-const Movie: StatelessComponent<MovieProps> = ({ movie }) => {
+function Movie({ movie }: MovieProps) {
     const a = () => {
         console.log(typeof movie);
+        console.log(typeof movie.Poster);
     };
 
     const poster =
@@ -27,6 +32,6 @@ const Movie: StatelessComponent<MovieProps> = ({ movie }) => {
             <p>({movie.Year})</p>
         </div>
     );
-};
+}
 
 export default Movie;

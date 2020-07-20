@@ -1,15 +1,16 @@
-import React, { useReducer, useEffect, createContext } from 'react';
+import React, { useState, useReducer, useEffect, useContext } from 'react';
 
 import Header from './components/Header';
 import Movie from './components/Movie';
-// import spinner from '../assets/ajax-loader.gif';
 import Search from './components/Search';
-import { initialState, reducer } from './store/reducer';
-import axios from 'axios';
+// import { initialState, reducer } from './store/reducer';
 import './App.css';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from 'axios';
+
+import { MovieContext } from './store/MovieContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,38 +23,41 @@ const useStyles = makeStyles((theme) => ({
 
 const MOVIE_API_URL = 'https://www.omdbapi.com/?s=man&apikey=de08387b';
 
-const movieContext = createContext();
-
-const App: React.FC = () => {
+export default function App(): JSX.Element {
     const classes = useStyles();
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, setState] = useState({
+        loading: false,
+        movies: [],
+        errorMessage: '',
+    });
 
     useEffect(() => {
-        axios.get(MOVIE_API_URL).then((jsonResponse) => {
-            dispatch({
-                type: 'SEARCH_MOVIES_SUCCESS',
-                payload: jsonResponse.data.Search,
+        axios.get(MOVIE_API_URL).then((res) => {
+            setState({
+                ...state,
+                movies: res.data.Search,
             });
         });
     }, []);
 
     const search = (searchValue) => {
-        dispatch({
-            type: 'SEARCH_MOVIES_REQUEST',
+        setState({
+            ...state,
+            loading: true,
         });
 
         axios(`https://www.omdbapi.com/?s=${searchValue}&apikey=de08387b`).then(
-            (jsonResponse) => {
-                if (jsonResponse.data.Response === 'True') {
-                    dispatch({
-                        type: 'SEARCH_MOVIES_SUCCESS',
-                        payload: jsonResponse.data.Search,
+            (res) => {
+                if (res.data.Response === 'True') {
+                    setState({
+                        ...state,
+                        movies: res.data.Search,
                     });
                 } else {
-                    dispatch({
-                        type: 'SEARCH_MOVIES_FAILURE',
-                        error: jsonResponse.data.Error,
+                    setState({
+                        ...state,
+                        errorMassage: res.data.Error,
                     });
                 }
             }
@@ -64,7 +68,6 @@ const App: React.FC = () => {
 
     const retrievedMovies =
         loading && !errorMessage ? (
-            // <img className='spinner' src={spinner} alt='Loading spinner' />
             <div className={classes.root}>
                 <CircularProgress />
             </div>
@@ -77,22 +80,17 @@ const App: React.FC = () => {
         );
 
     return (
-        // <movieContext.Provider value={}>
-        <div className='App'>
-            <div className='m-container'>
-                <Header text='HOOKED' />
-
-                <Search search={search} />
-
-                <p className='App-intro'>
-                    Sharing a few of our favourite movies
-                </p>
-
-                <div className='movies'>{retrievedMovies}</div>
+        <MovieContext.Provider value={state}>
+            <div className='App'>
+                <div className='m-container'>
+                    <Header text='HOOKED' />
+                    <Search search={search} />
+                    <p className='App-intro'>
+                        Sharing a few of our favourite movies
+                    </p>
+                    <div className='movies'>{retrievedMovies}</div>
+                </div>
             </div>
-        </div>
-        // </movieContext.Provider>
+        </MovieContext.Provider>
     );
-};
-
-export default App;
+}
