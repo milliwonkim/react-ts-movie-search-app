@@ -13,6 +13,7 @@ const Search = ({ search }: SearchProps) => {
         setSearchValue(e.target.value);
     };
 
+    // resetInput
     const resetInputField = (): void => {
         setSearchValue('');
     };
