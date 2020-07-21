@@ -20,10 +20,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface StateProps {
+    loading: boolean;
+    [index: number]: {
+        Poster: string;
+        Title: string;
+        Type: string;
+        Year: string;
+        imdbID: string;
+    };
+    errorMessage: string;
+}
+
 export default function App(): JSX.Element {
     const classes = useStyles();
 
-    const [state, setState] = useState({
+    const [state, setState] = useState<StateProps>({
         loading: false,
         movies: [],
         errorMessage: '',
@@ -39,7 +51,7 @@ export default function App(): JSX.Element {
         // eslint-disable-next-line
     }, []);
 
-    const search = (searchValue) => {
+    const search = (searchValue: string) => {
         setState({
             ...state,
             loading: true,
@@ -77,12 +89,18 @@ export default function App(): JSX.Element {
             ))
         );
 
+    // const a = (): void => {
+    //     console.log(movies);
+    // };
+
     return (
         <div className='App'>
             <div className='m-container'>
                 <Header text='HOOKED' />
                 <Search search={search} />
-                <p className='App-intro'>
+                <p
+                    // onClick={a}
+                    className='App-intro'>
                     Sharing a few of our favourite movies
                 </p>
                 <div className='movies'>{retrievedMovies}</div>

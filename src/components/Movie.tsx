@@ -12,16 +12,11 @@ type MovieProps = {
 };
 
 function Movie({ movie }: MovieProps) {
-    const a = () => {
-        console.log(typeof movie);
-        console.log(typeof movie.Poster);
-    };
-
     const poster =
         movie.Poster === 'N/A' ? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster;
     return (
         <div className='movie'>
-            <h2 onClick={a}>{movie.Title}</h2>
+            <h2>{movie.Title}</h2>
             <div>
                 <img
                     width='200'

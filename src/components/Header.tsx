@@ -5,13 +5,9 @@ type HeaderProps = {
 };
 
 const Header = ({ text }: HeaderProps) => {
-    const a = () => {
-        console.log(typeof text);
-    };
-
     return (
         <header className='App-header'>
-            <h2 onClick={a}>{text}</h2>
+            <h2>{text}</h2>
         </header>
     );
 };
