@@ -10,21 +10,22 @@ const Movie = ({ movie }: { movie: MovieProps }) => {
     const poster =
         movie.Poster === 'N/A' ? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster;
 
-    const handleClick = () => {
+    const handleClick = (): void => {
         window.open(`https://imdb.com/title/${movie.imdbID}`);
     };
 
     return (
         <MovieDiv onClick={handleClick} key={movie.imdbID}>
-            <div>
-                <img
-                    width='300'
-                    alt={`The movie titled: ${movie.Title}`}
-                    src={poster}
-                />
+            <img
+                width='300'
+                height='500'
+                alt={`The movie titled: ${movie.Title}`}
+                src={poster}
+            />
+            <div style={{ padding: '10px' }}>
+                <h2>{movie.Title}</h2>
+                <p>({movie.Year})</p>
             </div>
-            <h2>{movie.Title}</h2>
-            <p>({movie.Year})</p>
         </MovieDiv>
     );
 };
