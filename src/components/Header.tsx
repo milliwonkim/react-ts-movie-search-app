@@ -1,18 +1,11 @@
 import React from 'react';
+import { AppHeader } from '../styles/styles';
 
-type HeaderProps = {
-    text: string;
-};
-
-const Header = ({ text }: HeaderProps) => {
-    const a = () => {
-        console.log(typeof text);
-    };
-
+const Header = ({ text }: { text: string }) => {
     return (
-        <header className='App-header'>
-            <h2 onClick={a}>{text}</h2>
-        </header>
+        <AppHeader>
+            <h2>{text}</h2>
+        </AppHeader>
     );
 };
 

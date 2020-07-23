@@ -7,6 +7,11 @@ import axios from 'axios';
 import Header from './components/Header';
 import Movie from './components/Movie';
 import Search from './components/Search';
+
+import { AppDiv, MoviesDiv, ErrorMessageDiv } from './styles/styles';
+
+import { MoviesProps } from './type';
+
 import './App.css';
 
 const MOVIE_API_URL = 'https://www.omdbapi.com/?s=man&apikey=de08387b';
@@ -20,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function App(): JSX.Element {
+const App: React.FC = () => {
     const classes = useStyles();
 
-    const [state, setState] = useState({
+    const [state, setState] = useState<MoviesProps>({
         loading: false,
         movies: [],
         errorMessage: '',
@@ -31,6 +36,7 @@ export default function App(): JSX.Element {
 
     useEffect(() => {
         axios.get(MOVIE_API_URL).then((res) => {
+            console.log('res: ', res);
             setState({
                 ...state,
                 movies: res.data.Search,
@@ -39,7 +45,7 @@ export default function App(): JSX.Element {
         // eslint-disable-next-line
     }, []);
 
-    const search = (searchValue) => {
+    const search = (searchValue: string) => {
         setState({
             ...state,
             loading: true,
@@ -55,7 +61,7 @@ export default function App(): JSX.Element {
                 } else {
                     setState({
                         ...state,
-                        errorMassage: res.data.Error,
+                        errorMessage: res.data.Error,
                     });
                 }
             }
@@ -70,7 +76,7 @@ export default function App(): JSX.Element {
                 <CircularProgress />
             </div>
         ) : errorMessage ? (
-            <div className='errorMessage'>{errorMessage}</div>
+            <ErrorMessageDiv>{errorMessage}</ErrorMessageDiv>
         ) : (
             movies.map((movie, index) => (
                 <Movie key={`${index}-${movie.Title}`} movie={movie} />
@@ -78,15 +84,13 @@ export default function App(): JSX.Element {
         );
 
     return (
-        <div className='App'>
-            <div className='m-container'>
-                <Header text='HOOKED' />
-                <Search search={search} />
-                <p className='App-intro'>
-                    Sharing a few of our favourite movies
-                </p>
-                <div className='movies'>{retrievedMovies}</div>
-            </div>
-        </div>
+        <AppDiv>
+            <Header text='Movie Search' />
+            <Search search={search} />
+            <p>Sharing a few of our favourite movies</p>
+            <MoviesDiv>{retrievedMovies}</MoviesDiv>
+        </AppDiv>
     );
-}
+};
+
+export default App;

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
+import { SearchText, SearchForm, SearchSubmit } from '../styles/styles';
 
-type SearchProps = {
-    search: (text: string) => void;
-};
+const Search = ({ search }: { search: (searchValue: string) => void }) => {
+    const [searchValue, setSearchValue] = useState<string>('');
 
-const Search = ({ search }: SearchProps) => {
-    const [searchValue, setSearchValue] = useState<String>('');
-
-    const handleSearchInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
+    const handleSearchInputChanges = (
+        e: ChangeEvent<HTMLInputElement>
+    ): void => {
         setSearchValue(e.target.value);
     };
 
@@ -15,21 +14,21 @@ const Search = ({ search }: SearchProps) => {
         setSearchValue('');
     };
 
-    const callSearchFunction = (e: React.FormEvent<HTMLInputElement>): void => {
+    const callSearchFunction = (e: FormEvent): void => {
         e.preventDefault();
         search(searchValue);
         resetInputField();
     };
 
     return (
-        <form className='search' onSubmit={callSearchFunction}>
-            <input
+        <SearchForm onSubmit={callSearchFunction}>
+            <SearchText
                 value={searchValue}
                 onChange={handleSearchInputChanges}
                 type='text'
             />
-            <input type='submit' value='SEARCH' />
-        </form>
+            <SearchSubmit type='submit' value='SEARCH' />
+        </SearchForm>
     );
 };
 

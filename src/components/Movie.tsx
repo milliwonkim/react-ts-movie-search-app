@@ -1,37 +1,32 @@
 import React from 'react';
+import { MovieDiv } from '../styles/styles';
+
+import { MovieProps } from '../type';
 
 const DEFAULT_PLACEHOLDER_IMAGE =
     'https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg';
 
-type MovieProps = {
-    movie: {
-        Poster: string;
-        Title: string;
-        Year: number;
-    };
-};
-
-function Movie({ movie }: MovieProps) {
-    const a = () => {
-        console.log(typeof movie);
-        console.log(typeof movie.Poster);
-    };
-
+const Movie = ({ movie }: { movie: MovieProps }) => {
     const poster =
         movie.Poster === 'N/A' ? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster;
+
+    const handleClick = () => {
+        window.open(`https://imdb.com/title/${movie.imdbID}`);
+    };
+
     return (
-        <div className='movie'>
-            <h2 onClick={a}>{movie.Title}</h2>
+        <MovieDiv onClick={handleClick} key={movie.imdbID}>
             <div>
                 <img
-                    width='200'
+                    width='300'
                     alt={`The movie titled: ${movie.Title}`}
                     src={poster}
                 />
             </div>
+            <h2>{movie.Title}</h2>
             <p>({movie.Year})</p>
-        </div>
+        </MovieDiv>
     );
-}
+};
 
 export default Movie;
