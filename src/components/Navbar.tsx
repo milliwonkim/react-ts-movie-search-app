@@ -1,14 +1,22 @@
 import React from 'react';
-import { AppLogo, AppNav, StyledLink2, AppHeader } from '../styles/styles';
+import { AppNav, StyledLink2, AppHeader } from '../styles/styles';
 
-export const Navbar = () => {
+const Navbar = ({ auth, dispatch }) => {
+    const logout = () => {
+        dispatch({
+            type: 'AUTH_FAIL',
+        });
+    };
+
     const authLinks = (
         <AppNav>
             <AppNav>
-                <StyledLink2 to='/'>HOME</StyledLink2>
+                <StyledLink2 to='/dashboard'>DASHBOARD</StyledLink2>
             </AppNav>
             <AppNav>
-                <StyledLink2 to='/login'>LOGOUT</StyledLink2>
+                <StyledLink2 onClick={logout} to='/login'>
+                    LOGOUT
+                </StyledLink2>
             </AppNav>
         </AppNav>
     );
@@ -16,18 +24,19 @@ export const Navbar = () => {
     const guestLinks = (
         <AppNav>
             <AppNav>
-                <StyledLink2 to='/'>HOME</StyledLink2>
-            </AppNav>
-            <AppNav>
                 <StyledLink2 to='/login'>LOGIN</StyledLink2>
             </AppNav>
         </AppNav>
     );
 
     return (
-        <AppHeader>
-            <AppLogo>MOVIE FINDER</AppLogo>
-            {guestLinks}
-        </AppHeader>
+        <>
+            <AppHeader>
+                <StyledLink2 to='/'>MOVIE FINDER</StyledLink2>
+                {auth ? authLinks : guestLinks}
+            </AppHeader>
+        </>
     );
 };
+
+export default Navbar;

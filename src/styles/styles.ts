@@ -16,10 +16,10 @@ export const AppDiv = styled.div`
     flex-direction: column;
     text-align: center;
     align-items: center;
+    font-family: 'Roboto', sans-serif;
 `;
 
 export const AppHeader = styled.header`
-    font-family: 'Abril Fatface', cursive;
     letter-spacing: 1px;
     background-color: #282c34;
     height: 20px;
@@ -42,7 +42,7 @@ export const AppNav = styled.div`
     flex-direction: row;
     padding: 10px;
     text-align: center;
-    font-size: 20px;
+    font-size: 17px;
 `;
 
 export const ErrorMessageDiv = styled.div`
@@ -132,9 +132,31 @@ export const MovieSubDiv2 = styled.div`
 `;
 
 export const StyledButton = styled.button`
+    margin: 5px;
     font-size: 15px;
     border-radius: 8px;
     border: 1px solid black;
     width: 70px;
     height: 20px;
+`;
+
+export const StyledFilter = styled.div`
+    letter-spacing: 1px;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    padding: 20px;
+    cursor: pointer;
+`;
+
+export const ProgressDiv = styled.div`
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
 `;

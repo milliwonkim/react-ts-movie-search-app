@@ -1,35 +1,29 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { AppDiv, InputText, InputDiv } from '../styles/styles';
-import { LoginProps } from '../config/type';
-import { Redirect } from 'react-router-dom';
+import { LoginState } from '../config/type';
 
-const Login: React.FC<LoginProps> = ({ history }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const Login: React.FC<LoginState> = ({ history, auth, dispatch }) => {
+    const [login, setLogin] = useState({
+        email: '',
+        password: '',
+    });
 
-    const [auth, setAuth] = useState(false);
-
-    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        setEmail(e.target.value);
-    };
-
-    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        setPassword(e.target.value);
+    const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        setLogin({
+            ...login,
+            [e.target.name]: e.target.value,
+        });
     };
 
     const handleSubmit = (e: FormEvent) => {
-        console.log('email: ', email);
-        console.log('password: ', password);
         e.preventDefault();
-        setEmail(email);
-        setPassword(password);
-        if (email === 'test@test.com' && password === 'tester') {
-            setAuth(true);
-        }
 
-        if (auth) {
-            alert('Login Successfully');
-            return history.push('/');
+        console.log('email: ' + login.email + ', password: ' + login.password);
+
+        if (login.email === 'test@test.com' && login.password === 'tester') {
+            dispatch({
+                type: 'AUTH_SUCCESS',
+            });
         }
     };
 
@@ -39,18 +33,20 @@ const Login: React.FC<LoginProps> = ({ history }) => {
             <form onSubmit={handleSubmit}>
                 <InputDiv>
                     <InputText
-                        onChange={handleEmailChange}
+                        onChange={handleChange}
                         name='email'
                         type='email'
                         placeholder='email'
+                        authcomplete='on'
                     />
                 </InputDiv>
                 <InputDiv>
                     <InputText
-                        onChange={handlePasswordChange}
+                        onChange={handleChange}
                         name='password'
                         type='password'
                         placeholder='password'
+                        autocomplete='on'
                     />
                 </InputDiv>
                 <InputDiv>

@@ -6,12 +6,20 @@ import {
     StyledButton,
 } from '../styles/styles';
 
-import { MovieProps } from '../config/type';
+import { MovieState } from '../config/type';
 
 const DEFAULT_PLACEHOLDER_IMAGE =
     'https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg';
 
-const Movie = ({ movie }: { movie: MovieProps }) => {
+const Movie = ({
+    movie,
+}: {
+    movie: MovieState;
+    // state2: {
+    //     state: string;
+    //     setState: (text: string) => void;
+    // };
+}) => {
     const poster =
         movie.Poster === 'N/A' ? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster;
 
@@ -33,6 +41,7 @@ const Movie = ({ movie }: { movie: MovieProps }) => {
                 <div>
                     <h2>{movie.Title}</h2>
                 </div>
+                <p>{movie.imdbID}</p>
                 <p>({movie.Year})</p>
                 <MovieSubDiv2>
                     <StyledButton>Like</StyledButton>

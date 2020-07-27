@@ -1,19 +1,23 @@
 import { History } from 'history';
 
-export interface MovieProps {
+export interface MovieState {
     Poster: string;
     Title: string;
     Year: number;
     imdbID: string;
 }
 
-export interface MoviesProps {
+export interface MoviesState {
+    movies: MovieState[];
+    heroImage: null;
     loading: boolean;
-    movies: MovieProps[];
+    currentPage: number;
+    totalPages: number;
     errorMessage: string;
+    auth: boolean;
 }
 
-export interface LoginProps {
+export interface LoginState {
     email: string;
     password: string;
     history: History;
