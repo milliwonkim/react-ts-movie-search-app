@@ -53,6 +53,8 @@ const Home = () => {
         specificSearch(endpoint);
     };
 
+    // Home.tsx
+
     const specificSearch = (endPoint: string): void => {
         axios.get(endPoint).then((result) => {
             const generateRandom = function (min, max) {
