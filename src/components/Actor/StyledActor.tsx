@@ -1,15 +1,8 @@
 import styled from 'styled-components';
 
-export const StyledActor = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 20vw;
-    height: 40vh;
-`;
-
 export const StyledImg = styled.img`
-    width: 20vw;
-    height: 35vh;
+    width: 250px;
+    height: 300px;
 `;
 
 export const ActorName = styled.div`
@@ -20,5 +13,6 @@ export const ActorName = styled.div`
 `;
 
 export const ActorNameDiv = styled.div`
+    width: auto;
     text-align: center;
 `;

@@ -13,7 +13,8 @@ export const StyledHeader = styled.div`
 export const StyledLink = styled(Link)`
     text-decoration: none;
     color: white;
-    font-size: 25px;
+    font-size: 40px;
+    font-weight: bold;
 `;
 
 export const Logo = styled.div`

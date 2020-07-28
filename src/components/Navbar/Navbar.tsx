@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Navigation, NavigationContent } from './StyledNavbar';
+import { Navigation, NavigationContent, StyledLink } from './StyledNavbar';
 
 const Navbar = ({ movie }) => {
     return (
         <Navigation>
             <NavigationContent>
-                <Link to='/'>
+                <StyledLink to='/'>
                     <p>Home</p>
-                </Link>
+                </StyledLink>
+                <p>/</p>
                 <p>{movie}</p>
             </NavigationContent>
         </Navigation>

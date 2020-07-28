@@ -65,6 +65,8 @@ export const FaFilm = styled.div`
 `;
 
 export const Meter = styled.meter`
-    background: #fff;
+    background: transparent;
+    border: none;
     width: 200px;
+    height: 40px;
 `;

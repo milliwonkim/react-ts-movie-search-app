@@ -1,11 +1,11 @@
 import React from 'react';
 import { IMAGE_BASE_URL } from '../../config/keys';
-import { StyledActor, StyledImg, ActorName, ActorNameDiv } from './StyledActor';
+import { StyledImg, ActorName, ActorNameDiv } from './StyledActor';
 
 const Actor = ({ actor }) => {
     const POSTER_SIZE = 'w154';
     return (
-        <StyledActor>
+        <div>
             <StyledImg
                 src={
                     actor.profile_path
@@ -17,10 +17,10 @@ const Actor = ({ actor }) => {
             <ActorName>
                 <ActorNameDiv>
                     <p>{actor.name}</p>
-                    <p>{actor.character}</p>
+                    <pre>{actor.character}</pre>
                 </ActorNameDiv>
             </ActorName>
-        </StyledActor>
+        </div>
     );
 };
 

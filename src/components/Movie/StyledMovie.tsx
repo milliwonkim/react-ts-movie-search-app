@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
-export const StyledMovie = styled.div`
-    margin-bottom: 100px;
-`;
-
 export const MovieGrid = styled.div`
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 20px;
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 4fr));
+    justify-items: center;
+    align-items: center;
+    grid-gap: 20px;
 `;

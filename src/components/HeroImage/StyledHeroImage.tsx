@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const StyledHeroImage = styled.div`
     background-size: 100%, cover !important;
@@ -37,4 +38,9 @@ export const HeroImageText = styled.div`
     @media screen and (max-width: 720px) {
         max-width: 100%;
     }
+`;
+
+export const StyledLink = styled(Link)`
+    color: white;
+    text-decoration: none;
 `;

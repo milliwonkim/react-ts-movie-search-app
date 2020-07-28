@@ -2,16 +2,18 @@ import styled from 'styled-components';
 
 export const StyledLoadMoreBtn = styled.div`
     display: flex;
+    width: 100vw;
+    height: 7vh;
     justify-content: center;
-    text-align: center;
-    background: #16d47b;
-    width: 100%;
-    height: 50px;
+    align-items: center;
+    background: #3d3d3d;
     color: #fff;
     cursor: pointer;
     transition: all 0.3s;
+    font-weight: bold;
+    font-size: 20px;
 
     &:hover {
-        opacitfy: 0.5;
+        opacity: 0.7;
     }
 `;

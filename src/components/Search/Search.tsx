@@ -1,19 +1,22 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useCallback } from 'react';
 import { SearchBar, SearchBarInput } from './StyledSearch';
 
-const Search = ({ search }) => {
-    const [value, setValue] = useState('');
+import debounce from '../../config/debounce';
 
-    let timeout: any = null;
+const Search = ({ search }) => {
+    const handleDebounce = useCallback(
+        debounce((value) => {
+            search(value);
+            console.log('searched');
+        }, 500),
+        []
+    );
+
+    const [value, setValue] = useState('');
 
     const doSearch = (e: FormEvent<HTMLInputElement>) => {
         setValue(e.target.value);
-
-        clearTimeout(timeout);
-
-        timeout = setTimeout(() => {
-            search(value);
-        }, 500);
+        handleDebounce(e.target.value);
     };
 
     return (

@@ -4,9 +4,12 @@ import Home from '../Home/Home';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NotFound from '../NotFound/NotFound';
 import Movie from '../Movie/Movie';
+import { GlobalStyle } from './StyledApp';
+
 const App = () => {
     return (
         <BrowserRouter>
+            <GlobalStyle />
             <React.Fragment>
                 <Header />
                 <Switch>

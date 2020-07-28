@@ -5,7 +5,7 @@ import { StyledImg } from './StyledMovieThumb';
 
 const MovieThumb = ({ movieId, movieName, image, clickable }) => {
     return (
-        <>
+        <div>
             {clickable ? (
                 <Link
                     to={{
@@ -17,7 +17,7 @@ const MovieThumb = ({ movieId, movieName, image, clickable }) => {
             ) : (
                 <StyledImg src={image} alt='movie thumb' />
             )}
-        </>
+        </div>
     );
 };
 

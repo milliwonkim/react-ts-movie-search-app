@@ -47,7 +47,8 @@ const MovieInfo = ({ movie, directors }) => {
                             value={movie.vote_average * 10}></Meter>
                         <Score>{movie.vote_average}</Score>
                     </Rating>
-                    >
+                    <br></br>
+                    <br></br>
                     {directors.length > 1 ? (
                         <h3>DIRECTORS</h3>
                     ) : (
@@ -61,7 +62,6 @@ const MovieInfo = ({ movie, directors }) => {
                         );
                     })}
                 </MovieinfoText>
-                >
                 <FontAwesome className='fa-film' name='film' size='5x' />
             </MovieinfoContent>
         </Movieinfo>
