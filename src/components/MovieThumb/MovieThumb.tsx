@@ -5,14 +5,23 @@ import { StyledImg } from './StyledMovieThumb';
 
 const MovieThumb = ({ movieId, movieName, image, clickable }) => {
     return (
-        <div>
+        <div
+            style={{
+                boxSizing: 'border-box',
+            }}>
             {clickable ? (
                 <Link
                     to={{
                         pathname: `/${movieId}`,
                         movieName: `${movieName}`,
+                    }}
+                    style={{
+                        color: 'white',
+                        textDecoration: 'none',
+                        textAlign: 'center',
                     }}>
                     <StyledImg src={image} alt='movie thumb' />
+                    <p>{movieName}</p>
                 </Link>
             ) : (
                 <StyledImg src={image} alt='movie thumb' />

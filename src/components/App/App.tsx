@@ -6,7 +6,7 @@ import NotFound from '../NotFound/NotFound';
 import Movie from '../Movie/Movie';
 import { GlobalStyle } from './StyledApp';
 
-const App = () => {
+const App: React.FC = () => {
     return (
         <BrowserRouter>
             <GlobalStyle />

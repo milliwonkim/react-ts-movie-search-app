@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
+import { RouteComponentProps } from 'react-router';
+
 import { API_URL, API_KEY } from '../../config/keys';
 import Navbar from '../Navbar/Navbar';
 import MovieInfo from '../MovieInfo/MovieInfo';
@@ -7,38 +9,39 @@ import Actor from '../Actor/Actor';
 import { MovieGrid } from './StyledMovie';
 
 import axios from 'axios';
+import { ISpecificMv } from '../../config/type';
 import LoadMoreBtn from 'components/LoadMoreBtn/LoadMoreBtn';
 
-const Movie = ({ match }) => {
-    const [movie, setMovie] = useState({
-        movie: null,
-        actors: null,
+const Movie: FunctionComponent<RouteComponentProps> = ({ match, location }) => {
+    const [specificMv, setSpecificMv] = useState<ISpecificMv>({
+        movie: [],
+        actors: [],
         directors: [],
         loading: false,
     });
 
+    const { movie, actors, directors, loading } = specificMv;
+
     useEffect(() => {
-        setMovie({
-            ...movie,
+        setSpecificMv({
+            ...specificMv,
             loading: true,
         });
 
         const endpoint = `${API_URL}movie/${match.params.movieId}?api_key=${API_KEY}&language=en-US`;
         axios.get(endpoint).then((result) => {
-            console.log('Specific Movie result: ', result);
-            setMovie({
-                ...movie,
+            // console.log('Specific Movie result: ', result.data.runtime);
+            setSpecificMv({
+                ...specificMv,
                 movie: result.data,
             });
+            console.log('result of axios: ', result.data.budget);
         });
-        console.log('movie1: ', movie);
-
         // eslint-disable-next-line
     }, []);
 
     const actor = () => {
         const endpoint2 = `${API_URL}movie/${match.params.movieId}/credits?api_key=${API_KEY}`;
-
         axios
             .get(endpoint2)
             .then((result) => {
@@ -47,8 +50,8 @@ const Movie = ({ match }) => {
                     (member) => member.job === 'Director'
                 );
 
-                setMovie({
-                    ...movie,
+                setSpecificMv({
+                    ...specificMv,
                     actors: result.data.cast,
                     directors: directors,
                     loading: false,
@@ -59,27 +62,24 @@ const Movie = ({ match }) => {
 
     return (
         <div>
-            {movie.movie ? (
+            {movie ? (
                 <div>
-                    <Navbar movie={movie.movie.original_title} />
-                    <MovieInfo
-                        movie={movie.movie}
-                        directors={movie.directors}
-                    />
+                    <Navbar movie={movie.original_title} />
+                    <MovieInfo movie={movie} directors={directors} />
                     <MovieInfoBar
-                        time={movie.movie.runtime}
-                        budget={movie.movie.budget}
-                        revenue={movie.movie.revenue}
+                        time={movie.runtime}
+                        budget={movie.budget}
+                        revenue={movie.revenue}
                     />
                 </div>
             ) : null}
-            {movie.actors ? (
+            {actors ? (
                 <MovieGrid>
-                    {movie.actors.map((element, i) => {
+                    {actors.map((element, i) => {
                         return <Actor key={i} actor={element} />;
                     })}
                 </MovieGrid>
-            ) : !movie.loading ? null : (
+            ) : !loading ? null : (
                 <p>Loading</p>
             )}
 

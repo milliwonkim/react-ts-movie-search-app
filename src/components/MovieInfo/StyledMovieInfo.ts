@@ -68,5 +68,4 @@ export const Meter = styled.meter`
     background: transparent;
     border: none;
     width: 200px;
-    height: 40px;
 `;

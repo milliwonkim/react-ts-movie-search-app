@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledLoadMoreBtn = styled.div`
+    border: none;
     display: flex;
     width: 100vw;
     height: 7vh;
@@ -14,6 +15,6 @@ export const StyledLoadMoreBtn = styled.div`
     font-size: 20px;
 
     &:hover {
-        opacity: 0.7;
+        opacity: ${(props) => (props.searchTerm === null ? 0 : 0.7)};
     }
 `;

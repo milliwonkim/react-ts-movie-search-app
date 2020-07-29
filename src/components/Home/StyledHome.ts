@@ -8,3 +8,9 @@ export const HomeGrid = styled.div`
     grid-gap: 30px;
     margin: 30px 30px;
 `;
+
+export const StyledProgress = styled.div`
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+`;

@@ -2,20 +2,19 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Navigation = styled.div`
-    width: 100%;
-    height: 50px;
-    background: #353535;
-    color: #fff;
-    position: relative;
-    padding: 20px;
-    box-sizing: border-box;
-    margin: 0;
-    padding-top: 10px;
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    flex-direction: row;
 `;
 
 export const NavigationContent = styled.div`
-    display: flex;
-    flex-direction: row;
+    margin: 0 30px;
+`;
+
+export const StyledAnchor = styled.a`
+    color: white;
+    text-decoration: none;
 `;
 
 export const StyledLink = styled(Link)`

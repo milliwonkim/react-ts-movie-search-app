@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import useStateWithCallback from 'use-state-with-callback';
 import HeroImage from '../HeroImage/HeroImage';
 import Search from '../Search/Search';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import MovieThumb from '../MovieThumb/MovieThumb';
-import { HomeGrid } from './StyledHome';
+import { HomeGrid, StyledProgress } from './StyledHome';
 import {
     API_URL,
     API_KEY,
@@ -14,145 +15,174 @@ import {
 
 import axios from 'axios';
 
-const Home = () => {
-    const [movies, setMovies] = useState({
-        movies: [],
-        heroImage: null,
-        loading: false,
-        currentPage: 0,
-        totalPages: 0,
-        searchTerm: '',
-    });
+import { IMv } from '../../config/type';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { generateRandom } from '../../config/method';
+
+const Home: React.FC = () => {
+    const [mv, setMv] = useStateWithCallback<IMv>(
+        {
+            movies: [],
+            heroImage: null,
+            loading: false,
+            currentPage: 0,
+            totalPages: 0,
+            searchTerm: '',
+        },
+        () => {
+            if (searchTerm === '') {
+                localStorage.setItem('HomeState', JSON.stringify(mv));
+            }
+        }
+    );
+
+    const {
+        movies,
+        heroImage,
+        loading,
+        currentPage,
+        totalPages,
+        searchTerm,
+    } = mv;
 
     useEffect(() => {
-        console.log('Mounted');
-        setMovies({
-            ...movies,
+        if (localStorage.getItem('HomeState')) {
+            const local = localStorage.getItem('HomeState');
+            setMv(...local);
+        }
+
+        setMv({
+            ...mv,
             loading: true,
+            searchTerm: searchTerm,
         });
 
         const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&&language=en-US&page=1`;
+
         fetchItems(endPoint);
-        // eslint-disable-next-line
+        //eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        console.log('useEffect 2');
+        if (searchTerm === '') {
+            localStorage.setItem('HomeState', JSON.stringify(mv));
+        }
+        //eslint-disable-next-line
     }, []);
 
     const searchItems = (searchTerm: string): void => {
         let endpoint = '';
-        setMovies({
-            ...movies,
+        setMv({
+            ...mv,
             movies: [],
             loading: true,
             searchTerm: searchTerm,
         });
 
+        console.log('searchTerm in searchItems');
+
         if (searchTerm === '') {
             endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+            console.log(`searchItems searchTerm === ${searchTerm}`, endpoint);
         } else {
             endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}`;
-        }
-        specificSearch(endpoint);
-    };
-
-    // Home.tsx
-
-    const specificSearch = (endPoint: string): void => {
-        axios.get(endPoint).then((result) => {
-            const generateRandom = function (min, max) {
-                var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
-                return ranNum;
-            };
-
-            const random = generateRandom(0, 19);
-            console.log('Specific Search Results: ', result.data.results);
-            setMovies({
-                ...movies,
-                movies: [...result.data.results],
-                heroImage: movies.heroImage || result.data.results[random],
-                loading: false,
-                currentPage: result.data.page,
-                totalPages: result.data.total_pages,
-            });
-        });
-    };
-
-    const fetchItems = (endPoint: string): void => {
-        axios.get(endPoint).then((result) => {
-            const generateRandom = function (min, max) {
-                var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
-                return ranNum;
-            };
-
-            const random = generateRandom(0, 19);
-            console.log('Fetch Results: ', result.data.results);
-            setMovies({
-                ...movies,
-                movies: [...movies.movies, ...result.data.results],
-                heroImage: movies.heroImage || result.data.results[random],
-                loading: false,
-                currentPage: result.data.page,
-                totalPages: result.data.total_pages,
-            });
-        });
-    };
-
-    const loadMoreItems = (): void => {
-        let endpoint = '';
-
-        setMovies({
-            ...movies,
-            loading: true,
-        });
-
-        if (movies.searchTerm === '') {
-            endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${
-                movies.currentPage + 1
-            }`;
-        } else {
-            endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${
-                movies.searchTerm
-            }&page=${movies.currentPage + 1}`;
+            console.log(`searchItems searchTerm === ${searchTerm}`, endpoint);
         }
 
         fetchItems(endpoint);
     };
 
+    const loadMoreItems = (): void => {
+        let endpoint = '';
+
+        setMv({
+            ...mv,
+            loading: true,
+        });
+
+        console.log('searchTerm in loadMoreItems');
+
+        if (searchTerm === '') {
+            endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${
+                currentPage + 1
+            }`;
+            console.log(
+                `loadMore Items searchTerm === ${searchTerm}`,
+                endpoint
+            );
+        } else {
+            endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}&page=${
+                currentPage + 1
+            }`;
+            console.log(
+                `loadMore Items searchTerm === ${searchTerm}`,
+                endpoint
+            );
+        }
+
+        fetchItems(endpoint);
+    };
+
+    const fetchItems = (endPoint: string): void => {
+        axios.get(endPoint).then((result) => {
+            const random = generateRandom(0, 19);
+            console.log('before movies', movies);
+            console.log('before searchTerm', searchTerm);
+            setMv({
+                ...mv,
+                movies: [...movies, ...result.data.results],
+                heroImage: heroImage || result.data.results[random],
+                loading: false,
+                currentPage: result.data.page,
+                totalPages: result.data.total_pages,
+                searchTerm: searchTerm,
+            });
+            console.log('after movies', movies);
+            console.log('after searchTerm', searchTerm);
+        });
+    };
+
     return (
         <div>
-            {movies.heroImage ? (
-                <div>
-                    <HeroImage
-                        image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${movies.heroImage.backdrop_path}`}
-                        title={movies.heroImage.original_title}
-                        text={movies.heroImage.overview}
-                        movieId={movies.heroImage.id}
-                    />
-                    <Search search={searchItems} />
-                </div>
+            {heroImage ? (
+                <HeroImage
+                    image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${heroImage.backdrop_path}`}
+                    title={heroImage.original_title}
+                    text={heroImage.overview}
+                    movieId={heroImage.id}
+                />
             ) : null}
-            {movies.searchTerm ? (
-                <h1 style={{ textAlign: 'center' }}>Search Result</h1>
+            <Search search={searchItems} />
+            {searchTerm ? (
+                <h1 style={{ textAlign: 'center' }}>NOW SEARCH</h1>
             ) : (
-                <h1 style={{ textAlign: 'center' }}>Popular Movies</h1>
+                <h1 style={{ textAlign: 'center' }}>BROWSE MOVIES</h1>
             )}
             <HomeGrid>
-                {movies.movies.map((element, i) => {
+                {movies.map((m, i) => {
                     return (
                         <MovieThumb
                             key={i}
                             clickable={true}
                             image={
-                                element.poster_path
-                                    ? `${IMAGE_BASE_URL}${POSTER_SIZE}${element.poster_path}`
+                                m.poster_path
+                                    ? `${IMAGE_BASE_URL}${POSTER_SIZE}${m.poster_path}`
                                     : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'
                             }
-                            movieId={element.id}
-                            movieName={element.original_title}
+                            movieId={m.id}
+                            movieName={m.original_title}
                         />
                     );
                 })}
             </HomeGrid>
-            {movies.loading ? <p>Loading</p> : null}
-            {movies.currentPage <= movies.totalPages && !movies.loading ? (
+            <h1 style={{ textAlign: 'center' }}>{currentPage}</h1>
+            {loading ? (
+                <StyledProgress>
+                    <CircularProgress />
+                </StyledProgress>
+            ) : null}
+            {currentPage <= totalPages && !loading ? (
                 <LoadMoreBtn text='Load More' onClick={loadMoreItems} />
             ) : null}
         </div>

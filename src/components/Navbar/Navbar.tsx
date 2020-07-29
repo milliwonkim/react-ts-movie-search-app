@@ -1,15 +1,29 @@
 import React from 'react';
-import { Navigation, NavigationContent, StyledLink } from './StyledNavbar';
+import {
+    Navigation,
+    NavigationContent,
+    StyledLink,
+    StyledAnchor,
+} from './StyledNavbar';
 
-const Navbar = ({ movie }) => {
+interface IMovie {
+    movie: string;
+}
+
+const Navbar = ({ movie }: { movie: IMovie }) => {
     return (
         <Navigation>
             <NavigationContent>
                 <StyledLink to='/'>
                     <p>Home</p>
                 </StyledLink>
-                <p>/</p>
-                <p>{movie}</p>
+            </NavigationContent>
+            <p>/</p>
+            <NavigationContent>
+                <StyledAnchor
+                    href={`https://www.youtube.com/results?search_query=${movie}`}>
+                    <p>{movie}</p>
+                </StyledAnchor>
             </NavigationContent>
         </Navigation>
     );
