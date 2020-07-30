@@ -144,13 +144,8 @@ const Home: React.FC = () => {
         });
     };
 
-    const a = () => {
-        console.log(movies);
-    };
-
     return (
         <div>
-            <h1 onClick={a}>Click</h1>
             {heroImage ? (
                 <HeroImage
                     image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${heroImage.backdrop_path}`}
