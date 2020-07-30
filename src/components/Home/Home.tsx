@@ -4,7 +4,7 @@ import HeroImage from '../HeroImage/HeroImage';
 import Search from '../Search/Search';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import MovieThumb from '../MovieThumb/MovieThumb';
-import { HomeGrid, StyledProgress, H1 } from './StyledHome';
+import { HomeGrid, StyledProgress, H4, HomeSearch } from './StyledHome';
 import {
     API_URL,
     API_KEY,
@@ -172,14 +172,14 @@ const Home: React.FC = () => {
                     movieId={heroImage.id}
                 />
             ) : null}
-            <HomeGrid>
+            <HomeSearch>
                 <Search search={searchItems} />
                 <div style={{ cursor: 'pointer' }} onClick={browseAll}>
                     <div onClick={browseAll}>
-                        <H1>Browse All</H1>
+                        <H4>Browse All</H4>
                     </div>
                 </div>
-            </HomeGrid>
+            </HomeSearch>
             {searchTerm ? (
                 <h1 style={{ textAlign: 'center' }}>NOW SEARCH</h1>
             ) : (

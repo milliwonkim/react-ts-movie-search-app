@@ -1,10 +1,16 @@
 import React from 'react';
 import { StyledLoadMoreBtn } from './StyledLoadMoreBtn';
 
-const LoadMoreBtn = ({ text, onClick }) => {
+const LoadMoreBtn = ({
+    text,
+    onClick,
+}: {
+    text: string;
+    onClick: () => void;
+}) => {
     return (
         <StyledLoadMoreBtn onClick={onClick}>
-            <h2>{text}</h2>
+            <p>{text}</p>
         </StyledLoadMoreBtn>
     );
 };
