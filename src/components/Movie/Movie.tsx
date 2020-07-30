@@ -12,7 +12,7 @@ import axios from 'axios';
 import { ISpecificMv } from '../../config/type';
 import LoadMoreBtn from 'components/LoadMoreBtn/LoadMoreBtn';
 
-const Movie: FunctionComponent<RouteComponentProps> = ({ match, location }) => {
+const Movie: FunctionComponent<RouteComponentProps> = ({ match }) => {
     const [specificMv, setSpecificMv] = useState<ISpecificMv>({
         movie: [],
         actors: [],

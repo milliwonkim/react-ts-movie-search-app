@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SearchBar, SearchBarInput } from './StyledSearch';
 
-const Search = ({ search }) => {
+const Search = ({ search }: { search: (string) => void }) => {
     /**
      * Debounce Hook을 커스텀으로 만들었는데, 검색 시 검색결과가
      * 1페이지에서는 잘 나오지만
@@ -22,7 +22,6 @@ const Search = ({ search }) => {
         e.preventDefault();
         setValue(e.target.value);
         search(value);
-        // handleDebounce(e.target.value);
     };
 
     return (

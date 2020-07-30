@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { IMAGE_BASE_URL, POSTER_SIZE, BACKDROP_SIZE } from '../../config/keys';
-import FontAwesome from 'react-fontawesome';
 import MovieThumb from '../MovieThumb/MovieThumb';
 import { Director } from './StyledMovieInfo';
 import {
@@ -17,6 +16,7 @@ import LinearProgress, {
 } from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { IMovie, IDirectors } from '../../config/type';
 
 function LinearProgressWithLabel(
     props: LinearProgressProps & { value: number }
@@ -39,7 +39,13 @@ const useStyles = makeStyles({
     },
 });
 
-const MovieInfo = ({ movie, directors }) => {
+const MovieInfo = ({
+    movie,
+    directors,
+}: {
+    movie: IMovie[] | any;
+    directors: IDirectors[];
+}) => {
     const classes = useStyles();
     // eslint-disable-next-line
     const [progress, setProgress] = React.useState(10);
@@ -109,7 +115,6 @@ const MovieInfo = ({ movie, directors }) => {
                         );
                     })}
                 </MovieinfoText>
-                <FontAwesome className='fa-film' name='film' size='5x' />
             </MovieinfoContent>
         </Movieinfo>
     );

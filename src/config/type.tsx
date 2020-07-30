@@ -14,10 +14,14 @@ export interface IMovie {
     revenue: number;
 }
 
-export interface IActors {
-    profile_path: string;
+export interface IActor {
+    profile_path: any;
     name: string;
     character: string;
+}
+
+export interface IActors {
+    actor: IActor[];
 }
 
 export interface IDirectors {
