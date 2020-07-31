@@ -6,7 +6,17 @@ import {
     StyledLink,
 } from './StyledHeroImage';
 
-const HeroImage = ({ image, title, text, movieId }) => {
+const HeroImage = ({
+    image,
+    title,
+    text,
+    movieId,
+}: {
+    image: string | any;
+    title: string;
+    text: string;
+    movieId: number | string;
+}) => {
     return (
         <div>
             <StyledLink

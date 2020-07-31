@@ -6,11 +6,7 @@ import {
     StyledAnchor,
 } from './StyledNavbar';
 
-interface IMovie {
-    movie: string;
-}
-
-const Navbar = ({ movie }: { movie: IMovie }) => {
+const Navbar = ({ movie }: { movie: string }) => {
     return (
         <Navigation>
             <NavigationContent>

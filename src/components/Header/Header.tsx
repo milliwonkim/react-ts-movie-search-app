@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyledHeader, StyledLink } from './StyledHeader';
 
-const Header = () => {
+const Header: React.FC = () => {
     return (
-        <StyledHeader>
-            <StyledLink to='/'>Movie Search App</StyledLink>
-        </StyledHeader>
+        <StyledLink to='/'>
+            <StyledHeader>Movie Search App</StyledHeader>
+        </StyledLink>
     );
 };
 

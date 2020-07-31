@@ -8,6 +8,11 @@ export const StyledHeader = styled.div`
     align-items: center;
     justify-content: center;
     background: #1c1c1c;
+    transition: all 0.3s;
+
+    &:hover {
+        background-color: #0652dd;
+    }
 `;
 
 export const StyledLink = styled(Link)`

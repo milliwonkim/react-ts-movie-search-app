@@ -1,5 +1,5 @@
 import React from 'react';
-import { calcTime, convertMoney } from '../../helper';
+import { calcTime, convertMoney } from '../../config/helper';
 import {
     MovieinfoBar,
     MovieinfoBarContent,

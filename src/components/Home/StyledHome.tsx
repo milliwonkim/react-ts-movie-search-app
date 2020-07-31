@@ -19,6 +19,11 @@ export const HomeSearch = styled.div`
     justify-items: center;
     align-items: center;
     grid-gap: 30px;
+    height: 80px;
+
+    @media (max-width: 750px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 export const StyledProgress = styled.div`

@@ -5,7 +5,7 @@ const LoadMoreBtn = ({
     text,
     onClick,
 }: {
-    text: string;
+    text: number | string;
     onClick: () => void;
 }) => {
     return (

@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import useStateWithCallback from 'use-state-with-callback';
+import React, { useEffect, useState } from 'react';
 import HeroImage from '../HeroImage/HeroImage';
 import Search from '../Search/Search';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
@@ -15,26 +14,27 @@ import {
 
 import axios from 'axios';
 
-import { IMv } from '../../config/type';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { generateRandom } from '../../config/method';
 
+export interface IMv {
+    movies: Array<any>;
+    heroImage: any;
+    loading: boolean;
+    currentPage: number;
+    totalPages: number;
+    searchTerm: string;
+}
+
 const Home: React.FC = () => {
-    const [mv, setMv] = useStateWithCallback<IMv>(
-        {
-            movies: [],
-            heroImage: null,
-            loading: false,
-            currentPage: 0,
-            totalPages: 0,
-            searchTerm: '',
-        },
-        () => {
-            if (searchTerm === '') {
-                localStorage.setItem('HomeState', JSON.stringify(mv));
-            }
-        }
-    );
+    const [mv, setMv] = useState<IMv>({
+        movies: [],
+        heroImage: null,
+        loading: false,
+        currentPage: 0,
+        totalPages: 0,
+        searchTerm: '',
+    });
 
     const {
         movies,
@@ -46,27 +46,13 @@ const Home: React.FC = () => {
     } = mv;
 
     useEffect(() => {
-        if (localStorage.getItem('HomeState')) {
-            const local = localStorage.getItem('HomeState');
-            setMv(...local);
-        }
-
         setMv({
             ...mv,
             loading: true,
-            searchTerm: searchTerm,
         });
         const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&&language=en-US&page=1`;
 
         fetchItems(endPoint);
-        //eslint-disable-next-line
-    }, []);
-
-    useEffect(() => {
-        console.log('useEffect 2');
-        if (searchTerm === '') {
-            localStorage.setItem('HomeState', JSON.stringify(mv));
-        }
         //eslint-disable-next-line
     }, []);
 
@@ -79,17 +65,15 @@ const Home: React.FC = () => {
             searchTerm: searchTerm,
         });
 
-        console.log('searchTerm in searchItems');
-
         if (searchTerm === '') {
             endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-            console.log(`searchItems searchTerm === ${searchTerm}`, endpoint);
         } else {
             endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}`;
-            console.log(`searchItems searchTerm === ${searchTerm}`, endpoint);
         }
 
-        fetchItems(endpoint);
+        setTimeout(() => {
+            fetchItems(endpoint);
+        }, 500);
     };
 
     const loadMoreItems = (): void => {
@@ -100,24 +84,14 @@ const Home: React.FC = () => {
             loading: true,
         });
 
-        console.log('searchTerm in loadMoreItems');
-
         if (searchTerm === '') {
             endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${
                 currentPage + 1
             }`;
-            console.log(
-                `loadMore Items searchTerm === ${searchTerm}`,
-                endpoint
-            );
         } else {
             endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}&page=${
                 currentPage + 1
             }`;
-            console.log(
-                `loadMore Items searchTerm === ${searchTerm}`,
-                endpoint
-            );
         }
 
         fetchItems(endpoint);
@@ -125,10 +99,7 @@ const Home: React.FC = () => {
 
     const fetchItems = (endPoint: string): void => {
         axios.get(endPoint).then((result) => {
-            console.log(result.data);
             const random = generateRandom(0, 19);
-            console.log('before movies', movies);
-            console.log('before searchTerm', searchTerm);
             setMv({
                 ...mv,
                 movies: [...movies, ...result.data.results],
@@ -138,8 +109,6 @@ const Home: React.FC = () => {
                 totalPages: result.data.total_pages,
                 searchTerm: searchTerm,
             });
-            console.log('after movies', movies);
-            console.log('after searchTerm', searchTerm);
         });
     };
 
@@ -187,7 +156,6 @@ const Home: React.FC = () => {
             )}
             <HomeGrid>
                 {movies.map((m, i) => {
-                    console.log('m: ', typeof m.id);
                     return (
                         <MovieThumb
                             key={i}

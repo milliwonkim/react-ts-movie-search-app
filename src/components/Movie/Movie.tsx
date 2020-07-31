@@ -9,10 +9,33 @@ import Actor from '../Actor/Actor';
 import { BottomLoad, MovieGrid } from './StyledMovie';
 
 import axios from 'axios';
-import { ISpecificMv } from '../../config/type';
 import LoadMoreBtn from 'components/LoadMoreBtn/LoadMoreBtn';
 
-const Movie: FunctionComponent<RouteComponentProps> = ({ match, location }) => {
+interface IMovie {
+    original_title: string;
+    runtime: number;
+    budget: number;
+    revenue: number;
+}
+
+interface IActors {
+    profile_path: string;
+    name: string;
+    character: string;
+}
+
+interface IDirectors {
+    name: string;
+}
+
+interface ISpecificMv {
+    movie: IMovie[] | any;
+    actors: IActors[];
+    directors: IDirectors[];
+    loading: boolean;
+}
+
+const Movie: FunctionComponent<RouteComponentProps> = ({ match }) => {
     const [specificMv, setSpecificMv] = useState<ISpecificMv>({
         movie: [],
         actors: [],
@@ -32,12 +55,10 @@ const Movie: FunctionComponent<RouteComponentProps> = ({ match, location }) => {
 
         const endpoint = `${API_URL}movie/${match.params.movieId}?api_key=${API_KEY}&language=en-US`;
         axios.get(endpoint).then((result) => {
-            // console.log('Specific Movie result: ', result.data.runtime);
             setSpecificMv({
                 ...specificMv,
                 movie: result.data,
             });
-            console.log('result of axios: ', result.data.budget);
         });
         // eslint-disable-next-line
     }, []);
@@ -48,7 +69,6 @@ const Movie: FunctionComponent<RouteComponentProps> = ({ match, location }) => {
         axios
             .get(endpoint2)
             .then((result) => {
-                console.log('actors result: ', result);
                 const directors = result.data.crew.filter(
                     (member) => member.job === 'Director'
                 );
@@ -60,7 +80,7 @@ const Movie: FunctionComponent<RouteComponentProps> = ({ match, location }) => {
                     loading: false,
                 });
             })
-            .catch((error) => console.error('Error:', error));
+            .catch((error) => console.log('Error:', error));
     };
 
     return (

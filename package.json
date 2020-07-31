@@ -20,8 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",
-    "typescript": "~3.7.2",
-    "use-state-with-callback": "^1.0.18"
+    "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",

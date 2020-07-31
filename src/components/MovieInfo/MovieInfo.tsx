@@ -16,8 +16,6 @@ import LinearProgress, {
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-// import { IMovie, IDirectors } from '../../config/type';
-
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -55,7 +53,24 @@ const theme = createMuiTheme({
     },
 });
 
-const MovieInfo = ({ movie, directors }) => {
+interface IMovie {
+    original_title: string;
+    runtime: number;
+    budget: number;
+    revenue: number;
+}
+
+interface IDirectors {
+    name: string;
+}
+
+const MovieInfo = ({
+    movie,
+    directors,
+}: {
+    movie: IMovie[] | any;
+    directors: IDirectors[];
+}) => {
     // eslint-disable-next-line
     const [progress, setProgress] = React.useState(10);
 
